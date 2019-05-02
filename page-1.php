@@ -33,7 +33,9 @@ session_start();
 				for ($i=0; $i < 5; $i++) {
 					if (($_POST['login'] == $users[$i]['login'])&&($_POST['password']==$users[$i]['password'])) {
 						if(isset($users[$i]['lang'])){
-							$this->language = $users[$i]['lang'];
+							$_SESSION['lang'] = $users[$i]['lang'];
+							$_SESSION['user'] = $users[$i]['login'];
+							$this->language = $_SESSION['lang'];
 						}
 					}
 				}
@@ -42,28 +44,21 @@ session_start();
 		}
 	}
 	class Tran{
-		/*public $user;*/
+		public $user;
 		private $lang;
 		public function __construct(){
-			/*$this->$user = User();*/
-			$this->lang;
+			$this->$user = $_SESSION['user'];
+			$this->lang = 'Привет';
 		}
 		public function funcTran(){
 			$trans = [
 				'hello'=>['ua'=>'Привiт', 'ru'=>'Привет', 'en'=>'Hello', 'it'=>'Ciao'],
 				'bye' => ['ua'=>'До побачення', 'ru'=>'Пока', 'en'=>'Goodbye', 'it'=>'Ciao'],
 			];
-			$users = [
-				['login'=>'Vasisualiy', 'password' => '12345', 'lang'=>'ru'],
-				['login'=>'Afanasiy', 'password' => '54321', 'lang'=>'en'],
-				['login'=>'Petro', 'password'=>'EkUC42nzmu', 'lang'=>'ua'],
-				['login'=>'Pedrolus', 'password'=>'Cogito_ergo_sum', 'lang'=>'it'],
-				['login'=>'Sasha', 'password'=>'Alea_est_jacta']
-			];
 			foreach ($trans as $key => $value) {
 				foreach ($value as $key2 => $value2) {
-					if ($key2 == $users['lang']) {
-						$this->lang = $value;
+					if ($key2 == $_SESSION['lang']) {
+						echo $this->lang = $value2.'! ';
 					}
 				}
 			}
@@ -76,11 +71,12 @@ session_start();
 	$user->getLang();
 	echo '<pre>';
 	print_r($user);
+	
 	$phrase = new Tran();
 	$phrase->funcTran();
+	echo '<pre>';
 	print_r($phrase);
 
-		
 	?>
 	<a href="index.php?logout=true">logout</a>
 </body>
