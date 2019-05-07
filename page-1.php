@@ -30,7 +30,7 @@ session_start();
 				4 => ['login'=>'Sasha', 'password'=>'Alea_est_jacta']
 			];
 			if($_POST['Enter']){
-				for ($i=0; $i < 5; $i++) {
+				for ($i=0; $i < 5; $i++) { 
 					if (($_POST['login'] == $users[$i]['login'])&&($_POST['password']==$users[$i]['password'])) {
 						if(isset($users[$i]['lang'])){
 							$_SESSION['lang'] = $users[$i]['lang'];
@@ -43,29 +43,31 @@ session_start();
 			return new User($_POST['login'], $_POST['password'], $this);
 		}
 	}
+
 	class Tran{
-		public $user;
+		private $user;
 		private $lang;
 		public function __construct(){
 			$this->$user = $_SESSION['user'];
 			$this->lang = 'Привет';
 		}
-		public function funcTran(){
+		public function funcTran($ph){
 			$trans = [
 				'hello'=>['ua'=>'Привiт', 'ru'=>'Привет', 'en'=>'Hello', 'it'=>'Ciao'],
-				'bye' => ['ua'=>'До побачення', 'ru'=>'Пока', 'en'=>'Goodbye', 'it'=>'Ciao'],
+				'bye' => ['ua'=>'До побачення', 'ru'=>'Пока', 'en'=>'Goodbye', 'it'=>'Ciao']
 			];
 			foreach ($trans as $key => $value) {
-				foreach ($value as $key2 => $value2) {
-					if ($key2 == $_SESSION['lang']) {
-						echo $this->lang = $value2.'! ';
+				if ($ph == $key) {
+					foreach ($value as $key2 => $value2) {
+						if ($key2 == $_SESSION['lang']) {
+							$this->lang = $value2.'! ';
+						}
 					}
 				}
 			}
-			return $this->lang;
+			return $trans[$ph][$this->lang];
 		}
 	}
-	
 
 	$user = new User($_POST['login'], $_POST['password']);
 	$user->getLang();
@@ -73,10 +75,15 @@ session_start();
 	print_r($user);
 	
 	$phrase = new Tran();
-	$phrase->funcTran();
-	echo '<pre>';
+	
+	echo '<pre>1)';
+	$phrase->funcTran('hello');
 	print_r($phrase);
 
+	echo '<pre>2)';
+	$phrase->funcTran('bye');
+	print_r($phrase);
+	
 	?>
 	<a href="index.php?logout=true">logout</a>
 </body>
