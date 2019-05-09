@@ -33,9 +33,11 @@ session_start();
 				for ($i=0; $i < 5; $i++) { 
 					if (($_POST['login'] == $users[$i]['login'])&&($_POST['password']==$users[$i]['password'])) {
 						if(isset($users[$i]['lang'])){
-							$_SESSION['lang'] = $users[$i]['lang'];
 							$_SESSION['user'] = $users[$i]['login'];
+							$_SESSION['lang'] = $users[$i]['lang'];
 							$this->language = $_SESSION['lang'];
+						}else{
+							$this->language = 'ru';
 						}
 					}
 				}
@@ -46,14 +48,12 @@ session_start();
 
 	class Tran{
 		private $user;
-		private $lang;
 		public function __construct(){
-			$this->$user = $_SESSION['user'];
-			$this->lang = 'Привет';
+			$this->user = $_SESSION['user'];
 		}
 		public function funcTran($ph){
 			$trans = [
-				'hello'=>['ua'=>'Привiт', 'ru'=>'Привет', 'en'=>'Hello', 'it'=>'Ciao'],
+				'hello'=>['ua'=>'Привiт', 'ru'=>'Привет', 'en'=>'Hello', 'it'=>'Salve'],
 				'bye' => ['ua'=>'До побачення', 'ru'=>'Пока', 'en'=>'Goodbye', 'it'=>'Ciao']
 			];
 			foreach ($trans as $key => $value) {
